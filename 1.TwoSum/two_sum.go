@@ -1,4 +1,4 @@
-package main
+package two_sum
 // first my solution
 //Time complexity : O(n^2)
 //Space complexity : O(n).
@@ -48,8 +48,19 @@ func twoSum2(nums []int, target int) []int {
 	return []int{0,0}
 }
 
-
 func twoSum3(nums []int, target int) []int {
+	m := map[int]int{}
+	for i := 0; i < len(nums); i++ {
+		complement := target - nums[i]
+		if _, ok := m[complement]; ok { //сравниваем с прошлыми результатами
+			return []int{m[complement],i}
+		}
+		m[nums[i]] = i //save result for checking in next iteration
+	}
+	return []int{0,0}
+}
+
+func twoSum4(nums []int, target int) []int {
 	m := map[int]int{}
 	for i := 0; i < len(nums); i++ {
 		complement := target - nums[i]
