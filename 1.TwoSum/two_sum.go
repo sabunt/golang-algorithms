@@ -1,4 +1,9 @@
 package two_sum
+
+import "sort"
+//If we return indexes of array
+
+
 // first my solution
 //Time complexity : O(n^2)
 //Space complexity : O(n).
@@ -36,6 +41,7 @@ func twoSum1(nums []int, target int) []int {
 //
 //Space complexity : O(1)
 
+
 func twoSum2(nums []int, target int) []int {
 	for i := 0; i < len(nums); i++ {
 		for i2 := i + 1; i2 < len(nums); i2++ {
@@ -48,11 +54,12 @@ func twoSum2(nums []int, target int) []int {
 	return []int{0,0}
 }
 
+// O(n) time, O(n) space
 func twoSum3(nums []int, target int) []int {
 	m := map[int]int{}
 	for i := 0; i < len(nums); i++ {
 		complement := target - nums[i]
-		if _, ok := m[complement]; ok { //сравниваем с прошлыми результатами
+		if _, ok := m[complement]; ok {
 			return []int{m[complement],i}
 		}
 		m[nums[i]] = i //save result for checking in next iteration
@@ -60,14 +67,53 @@ func twoSum3(nums []int, target int) []int {
 	return []int{0,0}
 }
 
-func twoSum4(nums []int, target int) []int {
-	m := map[int]int{}
-	for i := 0; i < len(nums); i++ {
-		complement := target - nums[i]
-		if _, ok := m[complement]; ok { //сравниваем с прошлыми результатами
-			return []int{m[complement],i}
+
+
+//If we return elements of array
+
+//TwoNumberSum1 O(n^2) time complexity, O(1) space complexity
+func TwoNumberSum1(array []int, target int) []int {
+	for i, value := range array {
+		for _, value2 := range array[i+1:] {
+			complement := target - value
+			if complement == value2{
+				return []int{value,value2}
+			}
 		}
-		m[nums[i]] = i //save result for checking in next iteration
 	}
-	return []int{0,0}
+	return []int{}
 }
+
+
+
+//TwoNumberSum2 O(n) time, O(n) space
+func TwoNumberSum2(array []int, target int) []int {
+	m := map[int]bool{}
+	for _, value := range array {
+		complement := target - value
+		if _ , ok := m[complement]; ok {
+			return []int{complement, value}
+		}
+		m[value] = true
+	}
+	return []int{}
+}
+
+//TwoNumberSum3 O(n log (n)) time, O(1) space
+func TwoNumberSum3(array []int, target int) []int {
+	sort.Ints(array)
+	left, right := 0, len(array)-1
+	for left < right {
+		sum := array[left] + array[right]
+		if sum == target {
+			return []int{array[left], array[right]}
+		} else if sum < target{
+			left ++
+		} else{
+		 right --
+		}
+
+	}
+	return []int{}
+} 
+
